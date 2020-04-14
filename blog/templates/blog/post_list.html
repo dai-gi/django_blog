@@ -38,72 +38,67 @@
 		<div class="overlay"></div>
 		<div class="container">
 		<div class="row">
-
+			<h1>Django Startup</h1>
+			<span class="subheading">This is your first step!</span>
 		</div>
 		</div>
 	</header>
 
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<div>
-		<h1><a href="/">Django Startup Template</a></h1>
+	<!-- Main Content -->
+	<div class="container">
+		<div class="row">
+		<div class="col-lg-8 col-md-10 mx-auto">
+			{% for post in post_list %}
+			<div class="post-preview">
+			<h2 class="post-title">
+				{{ post.title}}
+			</h2>
+			<p class="post-mete">{{ post.published_date }}</p>
+			<p>{{ post.text|linebreaksbr|truncatechars:100 }}</p>
+			</div>
+			<hr>
+			{% endfor}
+		</div>
+		</div>
 	</div>
 
-	{% for post in post_list %}
-		<div>
-		<p>published: {{ post.published_date }}</p>
-		<h2><a href="">{{ post.title }}</a></h2>
-		<p>{{ post.text|linebreaksbr }}</p>
+	<hr>
+
+	<!-- Footer -->
+	<footer>
+		<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+			<ul class="list-inline text-center">
+				<li class="list-inline-item">
+				<a href="#">
+					<span class="fa-stack fa-lg">
+					<i class="fas fa-circle fa-stack-2x"></i>
+					<i class="fab fa-github fa-stack-1x fa-inverse"></i>	
+					</span>
+				</a>
+				</li>
+				<li class="list-inline-item">
+					<a href="#">
+					<span class="fa-stack fa-lg">
+					<i class="fas fa-circle fa-stack-2x"></i>
+					<i class="fab fa-twitter fa-stack-1x fa-inverse"></i>	
+					</span>
+				</a>
+				</li>
+				<li class="list-inline-item">
+				<a href="#">
+					<span class="fa-stack fa-lg">
+					<i class="fas fa-circle fa-stack-2x"></i>
+					<i class="fab fa-instagram fa-stack-1x fa-inverse"></i>	
+					</span>
+				</a>
+				</li>
+			</ul>
+			<p class="copyright text-muted">Copyright &copy; Your Website 2020</p>
+			</div>
 		</div>
-	{% endfor %}
+		</div>
+	</footer>
 </body>
-</html>
+</html>	
