@@ -11,7 +11,11 @@
 <div class="col-12">
 	{% for post in post_list %}
 	<div class="post-preview">
-		<h2 class="post-title">{{ post.title }}</h2>
+		<a href="{% url 'post_detail' pk=post.pk %}">
+			<h2 class="post-title">
+				{{ post.title }}
+			</h2>
+		</a>
 		<p class="post-meta">{{ post.published_date }}</p>
 		<p>{{ post.text|linebreaksbr|truncatehars:100 }}</p>
 	</div>
