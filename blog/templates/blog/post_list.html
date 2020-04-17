@@ -1,4 +1,4 @@
-{% extends 'blog/base.html %'}
+{% extends 'blog/base.html' %}
 
 {% block header %}
 <div class="site-heading">
@@ -17,7 +17,7 @@
 			</h2>
 		</a>
 		<p class="post-meta">{{ post.published_date }}</p>
-		<p>{{ post.text|linebreaksbr|truncatehars:100 }}</p>
+		<p>{{ post.text|linebreaksbr|truncatechars:100 }}</p>
 	</div>
 	<hr>
 	{% endfor %}
