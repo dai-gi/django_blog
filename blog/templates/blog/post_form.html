@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+<div class="site-heading">
+    <h1>New post</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-12">
+	<form method="POST" class="post-form">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<div class="text-right">
+			<button type="submit" class="save btn btn-success" role="button">Save</button>
+		</div>
+	</form>
+</div>
+{% endblock %}
