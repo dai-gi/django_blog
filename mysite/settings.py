@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',  #追加
+    'django.contrib.sites',
+    'blog.apps.BlogConfig',
+    'blog.apps.BlogConfig',
+    'accounts.apps.AccountsConfig',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +126,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+# SingUpした時に確認Emailアドレスを送信しない場合
+ACCOUNT_EMAIL_VERIFECATION = 'none'
+# SignUpした時に確認Emailアドレスを送信する場合
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'gmail adress'
+# EMAIL_HOST_PASSWORD = 'gmail password'
+# EMAIL_USE_TLS = True
