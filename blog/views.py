@@ -5,8 +5,7 @@ from django.utils import timezone
 from blog.models import Post
 from blog.forms import PostForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
-
+from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
 
 class PostListView(ListView):
     model = Post
