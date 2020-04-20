@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'blog.apps.BlogConfig',
     'accounts.apps.AccountsConfig',
-    'allauth',
+    'allauth', 
     'allauth.account',
     'allauth.socialaccount',
 ]
@@ -129,8 +129,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-# SingUpした時に確認Emailアドレスを送信しない場合
-ACCOUNT_EMAIL_VERIFECATION = 'none'
+# SignUpした時に確認Emailアドレスを送信しない場合
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 # SignUpした時に確認Emailアドレスを送信する場合
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
