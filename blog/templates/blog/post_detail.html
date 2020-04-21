@@ -22,4 +22,18 @@
         {{ post.text|linebreaksbr }}
     </p>
 </div>
+
+<p>
+    {{ post.text|linebreaksbr }}
+</p>
+
+<hr>
+{% for comment in post.comments.all %}
+    <p class="comment-meta">{{ comment.created_date }}</p>
+    <strong>{{ comment.author }}</strong>
+    <p>{{ comment.text|linebreaks }}</p>
+{% empty %}
+    <p>まだコメントはありません。</p>
+{% endfor %}
+
 {% endblock %}

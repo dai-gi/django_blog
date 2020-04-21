@@ -18,6 +18,9 @@
 		</a>
 		<p class="post-meta">{{ post.published_date }}</p>
 		<p>{{ post.text|linebreaksbr|truncatechars:100 }}</p>
+		<a href="{% url 'post_detail' pk=post.pk %}">
+			<p class="post-comment">Comments: {{ post.comments.count }}</p>
+		</a>
 	</div>
 	<hr>
 	{% endfor %}
