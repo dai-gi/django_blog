@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils import timezone
-from blog.models import Post
+from blog.models import Post, Comment
 from blog.forms import PostForm, CommentForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
@@ -65,3 +65,15 @@ def post_comment(request,pk):
 	else:
 		form = CommentForm()
 	return render(request, 'blog/post_comment.html', {'form': form})
+
+@login_required
+def comment_approve(request, pk):
+	comment = get_object_or_404(Comment, pk=pk)
+	comment.approve()
+	return redirect('post_detail', pk=comment.post.pk)
+
+@login_required
+def comment_remove(request, pk):
+	comment = get_object_or_404(Comment, pk=pk)
+	comment.delete()
+	return redirect('post_detail', pk=comment.post.pk)
