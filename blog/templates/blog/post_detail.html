@@ -28,6 +28,9 @@
 </p>
 
 <hr>
+<p>
+    <a class="btn btn-success" href="{% url 'post_comment' pk=post.pk %}" role="button">Add comment</a>
+</p>
 {% for comment in post.comments.all %}
     <p class="comment-meta">{{ comment.created_date }}</p>
     <strong>{{ comment.author }}</strong>
