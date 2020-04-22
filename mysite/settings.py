@@ -137,3 +137,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 # EMAIL_HOST_USER = 'gmail adress'
 # EMAIL_HOST_PASSWORD = 'gmail password'
 # EMAIL_USE_TLS = True
+
+IMAGE_ROOT = os.path.join(BASE_DIR, 'images')
+IMAGE_URL = '/images/'
