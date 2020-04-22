@@ -74,6 +74,10 @@ def comment_approve(request, pk):
 
 @login_required
 def comment_remove(request, pk):
+
 	comment = get_object_or_404(Comment, pk=pk)
 	comment.delete()
 	return redirect('post_detail', pk=comment.post.pk)
+
+class AboutView(TemplateView):
+	template_name = 'page/about.html'
