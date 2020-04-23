@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -146,7 +147,8 @@ IMAGE_URL = '/images/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'xxx',
-    'API_KEY': 'xxx',
-    'API_SECRET': 'xxx'
+    'CLOUD_NAME': 'dm2eq4yeb',
+    'API_KEY': '999876691829834',
+    'API_SECRET': 'mUYeXmxLBSbZo1S4nRqDwnMZ76w'
 }
+django_heroku.settings(locals())
