@@ -158,6 +158,7 @@ try:
 except ImportError:
     pass
 
-if not DEBUG:
-    import django_heroku
-    django_heroku.settings(locals())
+# Debug=Falseの時だけ実行する設定
+# if not DEBUG:
+#     import django_heroku
+#     django_heroku.settings(locals())
