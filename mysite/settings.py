@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'pz5*p_h4v)g^fwgdgio1)lzpmaiq9dpy9p&+h_zs&nw)q(h6z('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'blog.apps.BlogConfig',
     'accounts.apps.AccountsConfig',
-    'allauth', 
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'cloudinary',
@@ -152,3 +152,12 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'mUYeXmxLBSbZo1S4nRqDwnMZ76w'
 }
 django_heroku.settings(locals())
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    import django_heroku
+    django_heroku.settings(locals())
