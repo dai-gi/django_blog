@@ -12,11 +12,11 @@
 {% block content %}
 <div class="col-12">
     {% if not post.published_date %}
-        <a class="btn btn-warning" href="{% url 'post_publish' pk=post.pk %}" role="button">Publish</a>
+        <a class="btn btn-outline-warning rounded-pill" href="{% url 'post_publish' pk=post.pk %}" role="button">Publish</a>
     {% endif %}
     {% if user.is_authenticated %}
-        <a class="btn btn-success" href="{% url 'post_edit' pk=post.pk %}" role="button">Edit</a>
-        <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}" role="button">Delete</a>
+        <a class="btn btn-outline-success rounded-pill" href="{% url 'post_edit' pk=post.pk %}" role="button">Edit</a>
+        <a class="btn btn-outline-danger rounded-pill" href="{% url 'post_remove' pk=post.pk %}" role="button">Delete</a>
     {% endif %}
     
     {% if post.image %}
@@ -33,13 +33,13 @@
 
     <hr>
     <p>
-        <a class="btn btn-success" href="{% url 'post_comment' pk=post.pk %}" role="button">Add comment</a>
+        <a class="btn btn-outline-success rounded-pill" href="{% url 'post_comment' pk=post.pk %}" role="button">Add comment</a>
     </p>
     {% for comment in post.comments.all %}
         {% if not comment.approved_comment %}
         <p>
-            <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}" role="button">Remove</a>
-            <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}" role="button">Approve</a>
+            <a class="btn btn-outline-danger rounded-pill" href="{% url 'comment_remove' pk=comment.pk %}" role="button">Remove</a>
+            <a class="btn btn-outline-primary rounded-pill" href="{% url 'comment_approve' pk=comment.pk %}" role="button">Approve</a>
         </p>
         {% endif %}
     
