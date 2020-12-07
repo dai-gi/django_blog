@@ -37,14 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
+    'app',
+    'accounts',
     'django.contrib.sites',
-    'blog.apps.BlogConfig',
-    'accounts.apps.AccountsConfig',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'cloudinary',
-    'cloudinary_storage',
+    'allauth.socialaccount'
 ]
 
 MIDDLEWARE = [
@@ -131,34 +130,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-# SignUpした時に確認Emailアドレスを送信しない場合
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-# SignUpした時に確認Emailアドレスを送信する場合
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'gmail adress'
-# EMAIL_HOST_PASSWORD = 'gmail password'
-# EMAIL_USE_TLS = True
-
-IMAGE_ROOT = os.path.join(BASE_DIR, 'images')
-IMAGE_URL = '/images/'
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dm2eq4yeb',
-    'API_KEY': '999876691829834',
-    'API_SECRET': 'mUYeXmxLBSbZo1S4nRqDwnMZ76w'
-}
-django_heroku.settings(locals())
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-
-# Debug=Falseの時だけ実行する設定
-if not DEBUG:
-    import django_heroku
-    django_heroku.settings(locals())
-    SECRET_KEY = os.environ['SECRET_KEY']
