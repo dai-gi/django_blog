@@ -28,6 +28,14 @@ class CreatePostView(LoginRequiredMixin, View):
             'form': form
         })
 
+    def post(self, request, *args, **kwargs):
+        form = PostForm(request.POST or None)
+
+        if form.is_valid():
+            post_data = Post()
+            post_data.author = request.user
+            post_data.title = form.cleaned_data['title']
+
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
