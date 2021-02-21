@@ -1,1 +1,1 @@
-# djangoblog
+# samurai-django-blog
