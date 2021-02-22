@@ -1,14 +1,17 @@
 from django.views.generic import View
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from functools import reduce
+from operator import and_
 
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
         post_data = Post.objects.order_by("-id")
-        return render(request, 'app/index.html', {
+        return render(request, 'blog/index.html', {
             'post_data': post_data,
         })
 
@@ -16,15 +19,16 @@ class IndexView(View):
 class PostDetailView(View):
     def get(self, request, *args, **kwargs):
         post_data = Post.objects.get(id=self.kwargs['pk'])
-        return render(request, 'app/post_detail.html', {
+        return render(request, 'blog/post_detail.html', {
             'post_data': post_data
         })
+
 
 class CreatePostView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = PostForm(request.POST or None)
 
-        return render(request, 'app/post_form.html', {
+        return render(request, 'blog/post_form.html', {
             'form': form
         })
 
@@ -35,67 +39,94 @@ class CreatePostView(LoginRequiredMixin, View):
             post_data = Post()
             post_data.author = request.user
             post_data.title = form.cleaned_data['title']
+            category = form.cleaned_data['category']
+            category_data = Category.objects.get(name=category)
+            post_data.category = category_data
+            post_data.content = form.cleaned_data['content']
+            if request.FILES:
+                post_data.image = request.FILES.get('image')
+            post_data.save()
+            return redirect('post_detail', post_data.id)
+
+        return render(request, 'blog/post_form.html', {
+            'form': form
+        })
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = '/login/'
-    template_name = "blog/post_form.html"
-    redirect_field_name = 'blog/post_detail.html'
-    form_class = PostForm
-    model = Post
+class PostEditView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.get(id=self.kwargs['pk'])
+        form = PostForm(
+            request.POST or None,
+            initial={
+                'title': post_data.title,
+                'category': post_data.category,
+                'content': post_data.content,
+                'image': post_data.image,
+            }
+        )
 
+        return render(request, 'blog/post_form.html', {
+            'form': form
+        })
+    
+    def post(self, request, *args, **kwargs):
+        form = PostForm(request.POST or None)
 
-class DraftListView(LoginRequiredMixin, ListView):
-    login_url = '/login/'
-    template_name = 'blog/post_draft_list.html'
-    model = Post
-
-    def get_queryset(self):
-        return Post.objects.filter(published_date__isnull=True).order_by('created_date')
-
-
-@login_required
-def post_publish(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    post.publish()
-    return redirect('post_detail', pk=pk)
-
-
-class PostDeleteView(LoginRequiredMixin, DeleteView):
-    model = Post
-    template_name = "blog/post_confirm_delete.html"
-    success_url = reverse_lazy('post_list')
-
-
-@login_required
-def post_comment(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/post_comment.html', {'form': form})
+            post_data = Post.objects.get(id=self.kwargs['pk'])
+            post_data.title = form.cleaned_data['title']
+            category = form.cleaned_data['category']
+            category_data = Category.objects.get(name=category)
+            post_data.category = category_data
+            post_data.content = form.cleaned_data['content']
+            if request.FILES:
+                post_data.image = request.FILES.get('image')
+            post_data.save()
+            return redirect('post_detail', self.kwargs['pk'])
+
+        return render(request, 'blog/post_form.html', {
+            'form': form
+        })
 
 
-@login_required
-def comment_approve(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
+class PostDeleteView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.get(id=self.kwargs['pk'])
+        return render(request, 'blog/post_delete.html', {
+            'post_data': post_data
+        })
+
+    def post(self, request, *args, **kwargs):
+        post_data = Post.objects.get(id=self.kwargs['pk'])
+        post_data.delete()
+        return redirect('index')
 
 
-@login_required
-def comment_remove(request, pk):
+class CategoryView(View):
+    def get(self, request, *args, **kwargs):
+        category_data = Category.objects.get(name=self.kwargs['category'])
+        post_data = Post.objects.order_by('-id').filter(category=category_data)
+        return render(request, 'blog/index.html', {
+            'post_data': post_data
+        })
 
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
 
+class SearchView(View):
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.order_by('-id')
+        keyword = request.GET.get('keyword')
 
-class AboutView(TemplateView):
-    template_name = 'page/about.html'
+        if keyword:
+            exclusion_list = set([' ', '　'])
+            query_list = ''
+            for word in keyword:
+                if not word in exclusion_list:
+                    query_list += word
+            query = reduce(and_, [Q(title__icontains=q) | Q(content__icontains=q) for q in query_list])
+            post_data = post_data.filter(query)
+
+        return render(request, 'blog/index.html', {
+            'keyword': keyword,
+            'post_data': post_data
+        })
