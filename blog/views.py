@@ -6,6 +6,6 @@ from .models import Post
 class IndexView(View):
     def get(self, request, *args, **kwargs):
         post_data = Post.objects.order_by("-id")
-        return render(request, 'app/index.html', {
+        return render(request, 'blog/index.html', {
             'post_data': post_data,
         })
