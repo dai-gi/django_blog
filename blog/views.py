@@ -9,3 +9,11 @@ class IndexView(View):
         return render(request, 'blog/index.html', {
             'post_data': post_data,
         })
+
+
+class PostDetailView(View):
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.get(id=self.kwargs('pk'))
+        return render(request, 'app/post_detail.html', {
+            'post_data':post_data
+        })
