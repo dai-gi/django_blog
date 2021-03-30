@@ -10,7 +10,7 @@
 {% if user.is_authenticated %}
     <hr>
     <div class="d-flex mb-5">
-        <a class="btn btn-warning mr-2" href="">編集する</a>
+        <a class="btn btn-warning mr-2" href="{% url 'post_edit' post_data.id %}">編集する</a>
         <a class="btn btn-danger" href="">削除する</a>    
     </div>
 {% endif %}
