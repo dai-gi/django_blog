@@ -14,3 +14,8 @@ body {
 main {
     flex: 1;
 }
+
+/* 投稿 */
+.formpost {
+    margin-bottom: 1rem;
+}
